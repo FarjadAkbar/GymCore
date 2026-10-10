@@ -41,6 +41,8 @@ class EnquiryInfolist
                     })
                     ->schema([
                         TextEntry::make('name')->label(__('app.fields.name')),
+                        TextEntry::make('father_name')->label(__('app.fields.father_name')),
+                        TextEntry::make('plan.name')->label(__('app.fields.plan')),
                         TextEntry::make('email')->label(__('app.fields.email'))->copyable(),
                         TextEntry::make('contact')->label(__('app.fields.contact'))->copyable(),
                         TextEntry::make('gender')->label(__('app.fields.gender')),

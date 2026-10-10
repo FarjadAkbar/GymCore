@@ -2,7 +2,9 @@
 
 namespace App\Support\Website;
 
+use App\Enums\Status;
 use App\Helpers\Helpers;
+use App\Models\Plan;
 use App\Support\Data;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,6 +31,10 @@ final class WebsiteContext
             'gymAddress' => Data::nullableString($general['address'] ?? null),
             'hasCustomLogo' => $hasCustomLogo,
             'logoUrl' => $hasCustomLogo ? Storage::disk('public')->url($logoPath) : null,
+            'plans' => Plan::query()
+                ->where('status', Status::Active)
+                ->orderBy('amount')
+                ->get(),
         ];
     }
 }

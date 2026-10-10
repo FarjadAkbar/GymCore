@@ -17,8 +17,10 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int|null $user_id
  * @property string $name
+ * @property string|null $father_name
  * @property string|null $email
  * @property string|null $contact
+ * @property int|null $plan_id
  * @property Carbon|null $date
  * @property string|null $gender
  * @property Carbon|null $dob
@@ -33,6 +35,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $goal
  * @property Carbon|null $start_by
  * @property-read User|null $user
+ * @property-read Plan|null $plan
  * @property-read Collection<int, FollowUp> $followUps
  */
 class Enquiry extends Model
@@ -48,8 +51,10 @@ class Enquiry extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'father_name',
         'email',
         'contact',
+        'plan_id',
         'date',
         'gender',
         'dob',
@@ -101,6 +106,14 @@ class Enquiry extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return BelongsTo<Plan, $this>
+     */
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class);
     }
 
     /**

@@ -31,10 +31,12 @@ class EnquiryForm
                             ->required()
                             ->maxLength(255)
                             ->placeholder(__('app.placeholders.example_full_name')),
+                        TextInput::make('father_name')
+                            ->label(__('app.fields.father_name'))
+                            ->maxLength(255),
                         TextInput::make('email')
                             ->label(__('app.fields.email'))
                             ->email()
-                            ->required()
                             ->live()
                             ->placeholder(__('app.placeholders.example_email'))
                             ->unique('enquiries', 'email', ignoreRecord: true),

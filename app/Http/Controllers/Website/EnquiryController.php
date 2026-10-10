@@ -20,8 +20,11 @@ class EnquiryController extends Controller
 
     public function store(StoreEnquiryRequest $request): RedirectResponse
     {
+        $data = $request->safe()->except(['return_to']);
+
         Enquiry::create([
-            ...$request->validated(),
+            ...$data,
+            'email' => null,
             'date' => Carbon::today(),
             'status' => Status::Lead,
             'source' => 'website',

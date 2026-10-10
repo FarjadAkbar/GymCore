@@ -6,30 +6,28 @@
     <title>@yield('title', $gymName)</title>
     <link rel="icon" href="/images/favicon.svg">
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|bebas-neue:400" rel="stylesheet">
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        .font-display { font-family: 'Bebas Neue', ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.04em; }
-    </style>
 </head>
-<body class="min-h-screen bg-neutral-950 font-sans text-white antialiased">
-    <header class="absolute inset-x-0 top-0 z-50">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
-            <a href="{{ route('website.home') }}" class="flex min-w-0 items-center">
+<body class="min-h-screen bg-[#f4f1ea] font-sans text-stone-900 antialiased">
+    <header class="sticky top-0 z-40 border-b border-stone-200/80 bg-white/95 backdrop-blur">
+        <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+            <a href="{{ route('website.home') }}" class="flex min-w-0 items-center gap-3">
                 @if ($hasCustomLogo && $logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $gymName }}" class="h-10 max-w-[180px] w-auto brightness-0 invert">
+                    <img src="{{ $logoUrl }}" alt="{{ $gymName }}" class="h-11 w-auto max-w-[160px] object-contain">
                 @else
-                    <span class="font-display text-2xl tracking-wide text-white">{{ $gymName }}</span>
+                    <span class="grid h-11 w-11 place-items-center rounded-xl bg-gymie-800 text-sm font-bold text-white">{{ strtoupper(substr($gymName, 0, 1)) }}</span>
+                    <span class="truncate text-lg font-semibold tracking-tight text-gymie-950">{{ $gymName }}</span>
                 @endif
             </a>
-            <nav class="hidden items-center gap-8 text-sm font-medium uppercase tracking-wider text-white/80 md:flex">
-                <a href="#about" class="hover:text-white">{{ __('app.website.nav.about') }}</a>
-                <a href="#programs" class="hover:text-white">{{ __('app.website.nav.programs') }}</a>
-                <a href="#plans" class="hover:text-white">{{ __('app.website.nav.plans') }}</a>
+            <nav class="hidden items-center gap-7 text-sm font-medium text-stone-600 md:flex">
+                <a href="{{ route('website.home') }}#fees" class="hover:text-gymie-800">{{ __('app.website.nav.fees') }}</a>
+                <a href="{{ route('website.home') }}#timings" class="hover:text-gymie-800">{{ __('app.website.nav.timings') }}</a>
+                <a href="{{ route('website.home') }}#visit" class="hover:text-gymie-800">{{ __('app.website.nav.visit') }}</a>
             </nav>
-            <div class="flex items-center gap-2 sm:gap-3">
-                <a href="#enquiry" class="rounded-full bg-lime-400 px-4 py-2 text-xs font-bold uppercase tracking-wide text-neutral-950 hover:bg-lime-300 sm:px-5 sm:text-sm">{{ __('app.website.nav.get_started') }}</a>
-                <a href="{{ url('/admin/login') }}" class="hidden rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white hover:bg-white/10 sm:inline-block">{{ __('app.website.nav.staff_login') }}</a>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('website.home') }}#join" class="rounded-lg bg-gymie-800 px-4 py-2 text-sm font-semibold text-white hover:bg-gymie-900">{{ __('app.website.nav.join') }}</a>
+                <a href="{{ url('/admin/login') }}" class="hidden text-sm font-medium text-stone-500 hover:text-gymie-900 sm:inline">{{ __('app.website.nav.staff_login') }}</a>
             </div>
         </div>
     </header>
@@ -38,30 +36,23 @@
         @yield('content')
     </main>
 
-    <footer class="border-t border-white/10 bg-neutral-950">
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-3 lg:px-8">
+    <footer class="bg-gymie-950 text-stone-300">
+        <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
             <div>
-                <p class="font-display text-2xl text-white">{{ $gymName }}</p>
-                <p class="mt-3 max-w-sm text-sm leading-relaxed text-neutral-400">{{ __('app.website.footer.tagline') }}</p>
+                <p class="text-lg font-semibold text-white">{{ $gymName }}</p>
+                <p class="mt-2 text-sm leading-relaxed text-stone-400">{{ __('app.website.footer.tagline') }}</p>
             </div>
             <div>
-                <p class="text-xs font-bold uppercase tracking-widest text-lime-400">{{ __('app.website.footer.contact') }}</p>
-                <ul class="mt-4 space-y-2 text-sm text-neutral-300">
-                    @if ($gymEmail)
-                        <li><a href="mailto:{{ $gymEmail }}" class="hover:text-white">{{ $gymEmail }}</a></li>
-                    @endif
-                    @if ($gymContact)
-                        <li>{{ $gymContact }}</li>
-                    @endif
-                    @if ($gymAddress)
-                        <li class="text-neutral-400">{{ $gymAddress }}</li>
-                    @endif
+                <p class="text-xs font-semibold uppercase tracking-wider text-gymie-200">{{ __('app.website.footer.contact') }}</p>
+                <ul class="mt-3 space-y-1 text-sm">
+                    @if ($gymContact)<li>{{ $gymContact }}</li>@endif
+                    @if ($gymEmail)<li><a class="hover:text-white" href="mailto:{{ $gymEmail }}">{{ $gymEmail }}</a></li>@endif
+                    @if ($gymAddress)<li class="text-stone-400">{{ $gymAddress }}</li>@endif
                 </ul>
             </div>
-            <div class="flex flex-col gap-3 text-sm">
-                <a href="#enquiry" class="font-semibold text-white hover:text-lime-400">{{ __('app.website.nav.get_started') }}</a>
-                <a href="{{ url('/admin/login') }}" class="text-neutral-400 hover:text-white">{{ __('app.website.nav.staff_login') }}</a>
-                <p class="mt-4 text-neutral-500">&copy; {{ date('Y') }} {{ $gymName }}</p>
+            <div class="text-sm">
+                <a href="{{ route('website.home') }}#join" class="font-medium text-white hover:underline">{{ __('app.website.nav.join') }}</a>
+                <p class="mt-6 text-stone-500">&copy; {{ date('Y') }} {{ $gymName }}</p>
             </div>
         </div>
     </footer>

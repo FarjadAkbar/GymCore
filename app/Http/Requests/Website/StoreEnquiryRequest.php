@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Website;
 
+use App\Enums\Status;
+use App\Models\Plan;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -19,9 +21,14 @@ class StoreEnquiryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'string', 'email', 'max:255'],
+            'father_name' => ['required', 'string', 'max:255'],
             'contact' => ['required', 'string', 'max:20'],
-            'goal' => ['nullable', 'string', 'max:255'],
+            'plan_id' => [
+                Rule::requiredIf(fn (): bool => Plan::query()->where('status', Status::Active)->exists()),
+                'nullable',
+                'integer',
+                Rule::exists('plans', 'id'),
+            ],
             'return_to' => ['nullable', 'string', Rule::in(['home', 'join'])],
         ];
     }
