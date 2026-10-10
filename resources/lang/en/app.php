@@ -13,6 +13,7 @@ return [
         'id' => 'ID',
         'photo' => 'Photo',
         'name' => 'Name',
+        'full_name' => 'Full name',
         'father_name' => 'Father\'s name',
         'code' => 'Code',
         'member_code' => 'Member Code',

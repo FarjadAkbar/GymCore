@@ -24,13 +24,14 @@ final class LocationSection
         bool $countrySearchable = false,
         bool $countryPreloaded = false,
         bool $regionSearchable = false,
+        bool $locationRequired = true,
     ): Section {
         return Section::make(__('app.ui.location'))
             ->columns($sectionColumns)
             ->schema([
                 Textarea::make('address')
                     ->label(__('app.fields.address'))
-                    ->required()
+                    ->required($locationRequired)
                     ->rows($addressRows)
                     ->placeholder(__('app.placeholders.address_example')),
                 Group::make()
@@ -42,7 +43,7 @@ final class LocationSection
                             ->options(Helpers::getCountries())
                             ->searchable($countrySearchable)
                             ->preload($countryPreloaded)
-                            ->required()
+                            ->required($locationRequired)
                             ->live()
                             ->afterStateUpdated(function (Set $set): void {
                                 $set('state', null);

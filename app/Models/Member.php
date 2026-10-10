@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property string $code
  * @property string|null $attendance_device_user_id
  * @property string $name
+ * @property string|null $father_name
  * @property string|null $email
  * @property string|null $contact
  * @property string|null $emergency_contact
@@ -50,6 +51,7 @@ class Member extends Model
         'code',
         'attendance_device_user_id',
         'name',
+        'father_name',
         'email',
         'contact',
         'emergency_contact',

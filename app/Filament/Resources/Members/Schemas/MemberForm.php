@@ -5,9 +5,7 @@ namespace App\Filament\Resources\Members\Schemas;
 use App\Filament\Resources\Subscriptions\Schemas\SubscriptionForm;
 use App\Helpers\Helpers;
 use App\Models\Member;
-use App\Support\Filament\LocationSection;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -31,21 +29,6 @@ class MemberForm
             ->components([
                 Section::make()
                     ->schema([
-                        FileUpload::make('photo')
-                            ->imageEditor()
-                            ->preserveFilenames()
-                            ->maxSize(1024 * 1024 * 10)
-                            ->disk('public')
-                            ->directory('images')
-                            ->image()
-                            ->placeholder(__('app.placeholders.upload_logo'))
-                            ->loadingIndicatorPosition('left')
-                            ->panelAspectRatio('6:7')
-                            ->panelLayout('integrated')
-                            ->removeUploadedFileButtonPosition('right')
-                            ->uploadButtonPosition('left')
-                            ->uploadProgressIndicatorPosition('left'),
-
                         Grid::make()
                             ->schema([
                                 TextInput::make('code')
@@ -67,19 +50,23 @@ class MemberForm
                                     ->maxLength(64)
                                     ->unique('members', 'attendance_device_user_id', ignoreRecord: true),
                                 TextInput::make('name')
-                                    ->label(__('app.fields.name'))
+                                    ->label(__('app.fields.full_name'))
                                     ->required()
                                     ->maxLength(255)
                                     ->placeholder(__('app.placeholders.example_full_name'))
                                     ->columnSpan(2),
+                                TextInput::make('father_name')
+                                    ->label(__('app.fields.father_name'))
+                                    ->required()
+                                    ->maxLength(255),
                                 TextInput::make('email')
                                     ->label(__('app.fields.email'))
                                     ->email()
                                     ->live()
                                     ->maxLength(255)
-                                    ->required()
                                     ->placeholder(__('app.placeholders.example_email'))
-                                    ->unique('members', 'email', ignoreRecord: true),
+                                    ->unique('members', 'email', ignoreRecord: true)
+                                    ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? $state : null),
                                 TextInput::make('contact')
                                     ->label(__('app.fields.contact'))
                                     ->tel()
@@ -104,10 +91,8 @@ class MemberForm
                                     ->label(__('app.fields.gender'))
                                     ->default('male')
                                     ->inline()
-                                    ->inlineLabel(false)
-                                    ->required(),
+                                    ->inlineLabel(false),
                                 DatePicker::make('dob')
-                                    ->required()
                                     ->label(__('app.fields.dob'))
                                     ->placeholder(__('app.placeholders.date_example')),
                                 TextInput::make('health_issue')
@@ -134,9 +119,6 @@ class MemberForm
                                     ->selectablePlaceholder(false),
                             ])->columns(3)->columnSpan(3),
                     ])->columns(4),
-                LocationSection::make(
-                    pincodeRequired: true,
-                ),
                 Section::make(__('app.titles.subscription_and_invoice'))
                     ->visibleOn('create')
                     ->schema([
