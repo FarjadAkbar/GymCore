@@ -41,7 +41,7 @@
         @error('plan_id')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
     </div>
 
-    <button type="submit" class="w-full rounded-lg bg-gymie-800 py-3 text-sm font-semibold text-white hover:bg-gymie-900">
+    <button type="submit" class="site-btn w-full rounded-full py-3 text-sm font-semibold">
         {{ __('app.website.enquiry.submit') }}
     </button>
 </form>

@@ -1,154 +1,98 @@
 @extends('website.layout')
 
-@section('title', $gymName)
+@section('title', $gymName.' — '.__('app.website.hero.headline'))
 
 @section('content')
-    <section class="relative overflow-hidden bg-gymie-950 text-white">
-        <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1800&q=80" alt="" class="h-full w-full object-cover opacity-35">
-            <div class="absolute inset-0 bg-gradient-to-r from-gymie-950 via-gymie-950/90 to-gymie-950/40"></div>
-        </div>
-        <div class="relative mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:py-24">
-            <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-gymie-100">{{ $gymName }}</p>
-                <h1 class="mt-3 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{{ __('app.website.hero.headline') }}</h1>
-                <p class="mt-5 max-w-xl text-lg leading-relaxed text-stone-200">{{ __('app.website.hero.lead') }}</p>
-                <div class="mt-8 flex flex-wrap gap-3">
-                    <a href="#join" class="rounded-lg bg-white px-5 py-3 text-sm font-semibold text-gymie-950 hover:bg-gymie-50">{{ __('app.website.hero.join_cta') }}</a>
-                    <a href="#fees" class="rounded-lg border border-white/30 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">{{ __('app.website.hero.fees_cta') }}</a>
-                </div>
+    <section class="landing-hero" aria-labelledby="hero-title">
+        <img class="hero-background" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=2000&q=85" alt="{{ __('app.website.landing.hero_alt') }}" fetchpriority="high" width="2000" height="1333">
+        <div class="hero-shade"></div>
+        <div class="landing-container hero-content">
+            <p class="eyebrow"><span></span> {{ __('app.website.landing.eyebrow') }}</p>
+            <h1 id="hero-title">{{ __('app.website.landing.headline') }} <em>{{ __('app.website.landing.headline_accent') }}</em></h1>
+            <p class="hero-description">{{ __('app.website.landing.lead', ['gym' => $gymName]) }}</p>
+            <div class="hero-actions">
+                <a href="#join" class="site-btn">{{ __('app.website.landing.primary_cta') }} <span aria-hidden="true">↗</span></a>
+                <a href="#experience" class="outline-btn">{{ __('app.website.landing.explore_cta') }} <span aria-hidden="true">↓</span></a>
             </div>
-            <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-                <div class="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur">
-                    <p class="text-xs uppercase tracking-wider text-gymie-100">{{ __('app.website.facts.floor') }}</p>
-                    <p class="mt-1 text-lg font-semibold">{{ __('app.website.facts.floor_value') }}</p>
-                </div>
-                <div class="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur">
-                    <p class="text-xs uppercase tracking-wider text-gymie-100">{{ __('app.website.facts.coaching') }}</p>
-                    <p class="mt-1 text-lg font-semibold">{{ __('app.website.facts.coaching_value') }}</p>
-                </div>
-                <div class="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur">
-                    <p class="text-xs uppercase tracking-wider text-gymie-100">{{ __('app.website.facts.checkin') }}</p>
-                    <p class="mt-1 text-lg font-semibold">{{ __('app.website.facts.checkin_value') }}</p>
-                </div>
-            </div>
+            <p class="hero-note">{{ __('app.website.landing.hero_note') }}</p>
         </div>
+        <div class="hero-bottom landing-container"><span>{{ $gymName }}</span><span>{{ __('app.website.landing.hero_bottom') }}</span></div>
     </section>
 
-    <section class="border-b border-stone-200 bg-white">
-        <div class="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-3">
-            <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-stone-500">{{ __('app.website.nav.timings') }}</p>
-                <p class="mt-1 font-medium">{{ __('app.website.timings.hours') }}</p>
-            </div>
-            <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-stone-500">{{ __('app.fields.contact') }}</p>
-                <p class="mt-1 font-medium">{{ $gymContact ?: __('app.website.visit.call_desk') }}</p>
-            </div>
-            <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-stone-500">{{ __('app.fields.address') }}</p>
-                <p class="mt-1 font-medium">{{ $gymAddress ?: __('app.website.visit.ask_address') }}</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div class="max-w-2xl">
-            <h2 class="text-3xl font-semibold tracking-tight text-gymie-950">{{ __('app.website.floor.title') }}</h2>
-            <p class="mt-3 text-stone-600">{{ __('app.website.floor.subtitle') }}</p>
-        </div>
-        <div class="mt-10 grid gap-5 md:grid-cols-3">
-            @foreach ([
-                ['title' => __('app.website.floor.weights'), 'body' => __('app.website.floor.weights_body')],
-                ['title' => __('app.website.floor.cardio'), 'body' => __('app.website.floor.cardio_body')],
-                ['title' => __('app.website.floor.coaching'), 'body' => __('app.website.floor.coaching_body')],
-            ] as $item)
-                <article class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-                    <h3 class="text-lg font-semibold text-gymie-900">{{ $item['title'] }}</h3>
-                    <p class="mt-2 text-sm leading-relaxed text-stone-600">{{ $item['body'] }}</p>
-                </article>
+    <section class="benefit-strip" aria-label="{{ __('app.website.features_section.title') }}">
+        <div class="landing-container benefit-grid">
+            @foreach ([['01', __('app.website.facts.floor_value'), __('app.website.landing.floor_note')], ['02', __('app.website.landing.plan_benefit'), __('app.website.landing.plan_note')], ['03', __('app.website.landing.start_benefit'), __('app.website.landing.start_note')]] as [$number, $title, $description])
+                <div class="benefit"><span class="benefit-number">{{ $number }}</span><div><h2>{{ $title }}</h2><p>{{ $description }}</p></div></div>
             @endforeach
         </div>
     </section>
 
-    <section id="fees" class="scroll-mt-20 bg-white py-16">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6">
-            <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-                <div>
-                    <h2 class="text-3xl font-semibold tracking-tight text-gymie-950">{{ __('app.website.fees.title') }}</h2>
-                    <p class="mt-2 max-w-xl text-stone-600">{{ __('app.website.fees.subtitle') }}</p>
-                </div>
-            </div>
-            @if ($plans->isEmpty())
-                <p class="mt-8 rounded-2xl border border-dashed border-stone-300 bg-stone-50 px-5 py-8 text-stone-600">{{ __('app.website.fees.empty') }}</p>
-            @else
-                <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                    @foreach ($plans as $plan)
-                        <article class="flex flex-col rounded-2xl border border-stone-200 p-6 shadow-sm">
-                            <h3 class="text-xl font-semibold text-gymie-950">{{ $plan->name }}</h3>
-                            <p class="mt-3 text-3xl font-semibold tracking-tight text-gymie-800">{{ \App\Helpers\Helpers::formatCurrency((float) $plan->amount) }}</p>
-                            <p class="mt-1 text-sm text-stone-500">{{ trans_choice('app.website.fees.days', (int) $plan->days, ['count' => (int) $plan->days]) }}</p>
-                            @if ($plan->description)
-                                <p class="mt-4 flex-1 text-sm leading-relaxed text-stone-600">{{ $plan->description }}</p>
-                            @endif
-                            <a href="#join" class="mt-6 text-sm font-semibold text-gymie-800 hover:underline">{{ __('app.website.fees.choose') }}</a>
-                        </article>
+    <section id="experience" class="landing-container landing-section">
+        <div class="section-heading"><div><p class="eyebrow dark">{{ __('app.website.landing.experience_eyebrow') }}</p><h2>{{ __('app.website.landing.experience_title') }}</h2></div><p>{{ __('app.website.landing.experience_body') }}</p></div>
+        <div class="training-grid">
+            @foreach ([
+                ['photo-1534438327276-14e5300c3a48', __('app.website.floor.weights'), __('app.website.floor.weights_body'), __('app.website.landing.weights_alt'), '01'],
+                ['photo-1571019613454-1cb2f99b2d8b', __('app.website.landing.movement_title'), __('app.website.landing.movement_body'), __('app.website.landing.movement_alt'), '02'],
+                ['photo-1517836357463-d25dfeac3438', __('app.website.landing.routine_title'), __('app.website.landing.routine_body'), __('app.website.landing.routine_alt'), '03'],
+            ] as [$photo, $title, $body, $alt, $number])
+                <article class="training-card">
+                    <div class="training-image"><img src="https://images.unsplash.com/{{ $photo }}?auto=format&fit=crop&w=800&q=80" alt="{{ $alt }}" loading="lazy" width="800" height="1000"><span>{{ $number }}</span></div>
+                    <h3>{{ $title }}</h3><p>{{ $body }}</p>
+                </article>
+            @endforeach
+        </div>
+        <p class="image-note">{{ __('app.website.landing.image_note') }}</p>
+    </section>
+
+    <section class="start-section">
+        <div class="landing-container start-grid">
+            <div class="start-image"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=1100&q=85" alt="{{ __('app.website.landing.start_alt') }}" loading="lazy" width="1100" height="1100"><div class="image-caption">{{ __('app.website.landing.image_caption') }}</div></div>
+            <div class="start-copy"><p class="eyebrow dark">{{ __('app.website.landing.start_eyebrow') }}</p><h2>{{ __('app.website.landing.start_title') }}</h2><p class="section-intro">{{ __('app.website.landing.start_body') }}</p>
+                <ol class="steps">
+                    @foreach (['choose', 'enquire', 'visit'] as $step)
+                        <li><span>0{{ $loop->iteration }}</span><div><h3>{{ __('app.website.landing.step_'.$step) }}</h3><p>{{ __('app.website.landing.step_'.$step.'_body') }}</p></div></li>
                     @endforeach
-                </div>
-            @endif
+                </ol>
+                <a href="#join" class="text-link">{{ __('app.website.landing.primary_cta') }} <span aria-hidden="true">↗</span></a>
+            </div>
         </div>
     </section>
 
-    <section id="timings" class="scroll-mt-20 mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div class="grid gap-8 rounded-3xl bg-gymie-900 px-6 py-10 text-white sm:px-10 lg:grid-cols-2">
-            <div>
-                <h2 class="text-3xl font-semibold">{{ __('app.website.timings.title') }}</h2>
-                <p class="mt-3 text-gymie-100">{{ __('app.website.timings.body') }}</p>
+    <section id="fees" class="landing-container landing-section">
+        <div class="section-heading"><div><p class="eyebrow dark">{{ __('app.website.landing.fees_eyebrow') }}</p><h2>{{ __('app.website.fees.title') }}</h2></div><p>{{ __('app.website.landing.fees_body') }}</p></div>
+        @if ($plans->isEmpty())
+            <div class="empty-plans"><h3>{{ __('app.website.landing.empty_title') }}</h3><p>{{ __('app.website.landing.empty_body') }}</p><a href="#join" class="site-btn">{{ __('app.website.contact.cta') }} <span aria-hidden="true">↗</span></a></div>
+        @else
+            <div class="plan-grid">
+                @foreach ($plans as $plan)
+                    <article class="plan-card">
+                        <p class="plan-label">{{ __('app.website.landing.membership') }}</p><h3>{{ $plan->name }}</h3>
+                        <p class="plan-price">{{ \App\Helpers\Helpers::formatCurrency((float) $plan->amount) }}</p>
+                        <p class="plan-duration">{{ trans_choice('app.website.fees.days', (int) $plan->days, ['count' => (int) $plan->days]) }}</p>
+                        @if ($plan->description)<p class="plan-description">{{ $plan->description }}</p>@endif
+                        <a href="#join" class="plan-cta" data-plan-id="{{ $plan->id }}">{{ __('app.website.landing.choose_plan') }} <span aria-hidden="true">↗</span></a>
+                    </article>
+                @endforeach
             </div>
-            <dl class="grid gap-4 text-sm">
-                <div class="flex justify-between border-b border-white/15 pb-3">
-                    <dt>{{ __('app.website.timings.weekdays') }}</dt>
-                    <dd class="font-medium">{{ __('app.website.timings.hours') }}</dd>
-                </div>
-                <div class="flex justify-between border-b border-white/15 pb-3">
-                    <dt>{{ __('app.website.timings.sunday') }}</dt>
-                    <dd class="font-medium">{{ __('app.website.timings.sunday_hours') }}</dd>
-                </div>
-                <div class="flex justify-between">
-                    <dt>{{ __('app.website.timings.checkin') }}</dt>
-                    <dd class="font-medium">{{ __('app.website.timings.checkin_value') }}</dd>
-                </div>
-            </dl>
-        </div>
+        @endif
     </section>
 
-    <section id="visit" class="scroll-mt-20 bg-white py-16">
-        <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-start">
-            <div id="join" class="scroll-mt-24">
-                <h2 class="text-3xl font-semibold tracking-tight text-gymie-950">{{ __('app.website.join.title') }}</h2>
-                <p class="mt-3 text-stone-600">{{ __('app.website.join.subtitle') }}</p>
-                <div class="mt-8 rounded-2xl border border-stone-200 p-6 shadow-sm">
-                    @include('website.partials.enquiry-form', ['returnTo' => 'home'])
-                </div>
-            </div>
-            <div class="rounded-2xl bg-[#efeae1] p-8">
-                <h3 class="text-xl font-semibold text-gymie-950">{{ __('app.website.visit.title') }}</h3>
-                <p class="mt-3 text-sm leading-relaxed text-stone-700">{{ __('app.website.visit.body') }}</p>
-                <dl class="mt-6 space-y-4 text-sm">
-                    @if ($gymAddress)
-                        <div>
-                            <dt class="text-xs font-semibold uppercase tracking-wider text-stone-500">{{ __('app.fields.address') }}</dt>
-                            <dd class="mt-1">{{ $gymAddress }}</dd>
-                        </div>
-                    @endif
-                    @if ($gymContact)
-                        <div>
-                            <dt class="text-xs font-semibold uppercase tracking-wider text-stone-500">{{ __('app.fields.contact') }}</dt>
-                            <dd class="mt-1">{{ $gymContact }}</dd>
-                        </div>
-                    @endif
-                </dl>
-            </div>
+    <section id="timings" class="visit-section"><div class="landing-container visit-grid">
+        <div><p class="eyebrow">{{ __('app.website.landing.visit_eyebrow') }}</p><h2>{{ __('app.website.landing.visit_title') }}</h2><p>{{ __('app.website.landing.visit_body') }}</p>
+            @if ($gymAddress)<address>{{ $gymAddress }}</address>@endif
+            @if ($gymContact)<a class="contact-link" href="tel:{{ preg_replace('/[^+0-9]/', '', $gymContact) }}">{{ $gymContact }} <span aria-hidden="true">↗</span></a>@endif
         </div>
-    </section>
+        <div class="hours-card"><h3>{{ __('app.website.timings.title') }}</h3><div><span>{{ __('app.website.timings.weekdays') }}</span><strong>{{ __('app.website.timings.hours') }}</strong></div><div><span>{{ __('app.website.timings.sunday') }}</span><strong>{{ __('app.website.timings.sunday_hours') }}</strong></div><p>{{ __('app.website.landing.hours_note') }}</p></div>
+    </div></section>
+
+    <section class="landing-container landing-section faq-section"><div><p class="eyebrow dark">{{ __('app.website.landing.faq_eyebrow') }}</p><h2>{{ __('app.website.landing.faq_title') }}</h2></div><div class="faq-list">
+        @foreach (['beginner', 'plan', 'payment'] as $question)
+            <details><summary>{{ __('app.website.landing.faq_'.$question) }}<span aria-hidden="true">+</span></summary><p>{{ __('app.website.landing.faq_'.$question.'_answer') }}</p></details>
+        @endforeach
+    </div></section>
+
+    <section id="join" class="join-section"><div class="landing-container join-grid">
+        <div class="join-copy"><p class="eyebrow dark">{{ __('app.website.landing.join_eyebrow') }}</p><h2>{{ __('app.website.landing.join_title') }}</h2><p>{{ __('app.website.landing.join_body') }}</p><div class="join-reassurance"><span aria-hidden="true">↗</span><div><strong>{{ __('app.website.landing.join_reassurance') }}</strong><p>{{ __('app.website.landing.join_reassurance_body') }}</p></div></div></div>
+        <div id="enquiry" class="enquiry-card"><h3>{{ __('app.website.contact.cta') }}</h3><p class="form-intro">{{ __('app.website.landing.form_intro') }}</p>@include('website.partials.enquiry-form', ['returnTo' => 'home'])<p class="form-note">{{ __('app.website.landing.form_note') }}</p></div>
+    </div></section>
 @endsection
