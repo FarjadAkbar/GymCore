@@ -62,6 +62,8 @@ class MemberForm
                                 TextInput::make('email')
                                     ->label(__('app.fields.email'))
                                     ->email()
+                                    ->nullable()
+                                    ->markAsRequired(false)
                                     ->live()
                                     ->maxLength(255)
                                     ->placeholder(__('app.placeholders.example_email'))
